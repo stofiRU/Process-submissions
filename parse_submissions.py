@@ -12,7 +12,21 @@ def parse_submissions(directory):
         with open(d, "r") as f:
             for line in f:
                 if 'Accepted' in line:
-                    accepted.append(f)
-    return accepted
+                    accepted.append(f.name)
+
+    acc = ()
+    team = ""
+    problem = ""
+    submissions = []
+    for a in accepted:
+        with open(a, "r") as f:
+            for line in f:
+                if ('Problem ' in line):
+                    s, p, problem = line.partition('Problem ')
+                if ('Team ' in line):
+                    s, t, team = line.partition('Team ')
+                    acc = (team.rstrip(), problem.rstrip())
+                    submissions.append(acc)
+    return submissions
 
 print(parse_submissions('submissions'))
